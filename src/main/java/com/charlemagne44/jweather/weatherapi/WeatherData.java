@@ -3,31 +3,64 @@ package com.charlemagne44.jweather.weatherapi;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.StringReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 
-public class WeatherData {
-    long latitude;
-    long longitude;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-    public long getLatitude() {
+public class WeatherData {
+    double latitude;
+    double longitude;
+    String currentTime;
+    double currentTemp, currentHumidty;
+
+    public String getCurrentTime() {
+        return currentTime;
+    }
+
+    public double getCurrentTemp() {
+        return currentTemp;
+    }
+
+    public double getCurrentHumidty() {
+        return currentHumidty;
+    }
+
+    public double getLatitude() {
         return latitude;
     }
 
-    public long getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 
-    public WeatherData(long latitude, long longitude) {
+    public WeatherData(double latitude, double longitude) {
         this.latitude = latitude;
         this.longitude = longitude;
+        parseWeatherJSON(getWeatherJSON());
     }
 
-    public String getWeatherData() {
-        String baseUrl = "https://api.open-meteo.com/v1/forecast?latitude=%d&longitude=%d&current=temperature_2m,wind_speed_10m";
+    private void parseWeatherJSON(String jsonResponse) {
+        try {// Parse the JSON response
+            JSONObject json = new JSONObject(jsonResponse);
+
+            // Extract current information
+            JSONObject current = json.getJSONObject("current");
+            this.currentTime = current.getString("time");
+            this.currentTemp = current.getDouble("temperature_2m");
+            this.currentHumidty = current.getDouble("relative_humidity_2m");
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private String getWeatherJSON() {
+        String baseUrl = "https://api.open-meteo.com/v1/forecast?latitude=%f&longitude=%f&current=temperature_2m,wind_speed_10m,relative_humidity_2m";
         String callUrl = String.format(baseUrl, this.getLatitude(), this.getLongitude());
-        
+
         URL url;
         HttpURLConnection connection;
         // int responseCode;
