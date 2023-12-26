@@ -3,7 +3,6 @@ package com.charlemagne44.jweather.weatherapi;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.StringReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -65,7 +64,7 @@ public class WeatherData {
         HttpURLConnection connection;
         // int responseCode;
         String line;
-        StringBuilder response;
+        StringBuilder response = new StringBuilder();
         try {
             // Construct and make the request
             url = new URL(callUrl);
@@ -75,8 +74,6 @@ public class WeatherData {
 
             // Read the response from the input stream
             try (BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
-                response = new StringBuilder();
-
                 while ((line = reader.readLine()) != null) {
                     response.append(line);
                 }
@@ -90,6 +87,6 @@ public class WeatherData {
             e.printStackTrace();
         }
 
-        return "";
+        return response.toString();
     }
 }
