@@ -68,7 +68,6 @@ public class WeatherData {
         Map<String, String> values = new HashMap<>();
         try {
             JSONObject json = new JSONObject(jsonResponse);
-            // Extract current information
             JSONObject responseCategory = json.getJSONObject(responseKey);
             
             Iterator<String> keys = responseCategory.keys();
@@ -91,7 +90,6 @@ public class WeatherData {
 
         URL url;
         HttpURLConnection connection;
-        // int responseCode;
         String line;
         StringBuilder response = new StringBuilder();
         try {
@@ -99,7 +97,6 @@ public class WeatherData {
             url = new URL(callUrl);
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
-            // responseCode = connection.getResponseCode();
 
             // Read the response from the input stream
             try (BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
