@@ -3,6 +3,7 @@ package com.charlemagne44.jweather;
 import com.charlemagne44.jweather.geocodingapi.Geocode;
 import com.charlemagne44.jweather.weatherapi.WeatherData;
 import java.util.List;
+import java.util.Map;
 
 public class App 
 {
@@ -17,6 +18,13 @@ public class App
 
         // Get weather data
         WeatherData data = new WeatherData(latitude, longitude);
-        System.out.printf("Current time: %s, Current Temp %s, Current Humidity: %s\n", data.getCurrentTime(), data.getCurrentTemp(), data.getCurrentHumidty());
+        Map<String,String> currentWeather = data.getCurrentWeatherData();
+        System.out.println(currentWeather);
+
+        Map<String,String> hourlyWeather = data.getHourlyWeatherData();
+        System.out.println(hourlyWeather);
+
+        Map<String,String> dailyWeather = data.getDailyWeatherData();
+        System.out.println(dailyWeather);
     }
 }
