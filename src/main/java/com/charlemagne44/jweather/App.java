@@ -8,6 +8,10 @@ import javafx.scene.control.Button;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.HashSet;
 
 import jexer.TAction;
 import jexer.TApplication;
@@ -26,6 +30,8 @@ public class App {
         app.addToolMenu();
         app.addFileMenu();
         app.addWindowMenu();
+
+        HashSet<ScheduledExecutorService> subscriptions = new HashSet<ScheduledExecutorService>();
 
         int label_offset = 1;
         int label_y_offset = 1;
@@ -47,29 +53,50 @@ public class App {
         TLabel currentWind = myWindow.addLabel("Current Wind: ", label_offset, label_y_offset + 3); // "wind_speed_10m"
         labelList.add(currentWind);
 
-        // myWindow.addProgressBar(1, 6, 20, 50);
-        // Implement this in the future, but figure out why it disappears on updating
-        // the other fields
-        // TProgressBar myBar = new TProgressBar(currentWind, 1, 6, 20, 50);
+        TProgressBar progressBar = new TProgressBar(currentWind, 0, 1, 30, 1);
 
-        // I made updating the labels way more complicated than it needs to be lol
         TAction myAction = new TAction() {
             @Override
             public void DO() {
+                progressBar.setValue(50);
+                // currentWind.setLabel("Loading");
+                test(currentWind);
                 if (source instanceof jexer.TField) {
+                    progressBar.setValue(100);
                     String customT = ((jexer.TField) source).getText();
+                    CompletableFuture<Map<String, String>> completableFuture = CompletableFuture
+                            .supplyAsync(() -> fetchWeatherData(customT));
 
-                    List<Double> cords = Geocode.getLatLong(customT);
-                    Double lat = cords.get(0);
-                    Double lon = cords.get(1);
+                    currentTemp.setLabel("Loading...");
+                    while (!completableFuture.isDone()) {
+                        // Just blocking here?
+                    }
+                    // List<Double> cords = Geocode.getLatLong(customT);
 
-                    WeatherData myD = new WeatherData(lat, lon);
-                    Map<String, String> currentW = myD.getCurrentWeatherData();
+                    // Double lat = cords.get(0);
+                    // Double lon = cords.get(1);
 
-                    currentTemp.setLabel("Current Temp: " + currentW.get("temperature_2m") + "°C");
-                    currentPressure.setLabel("Current Pressure: " + currentW.get("surface_pressure") + " mmHg");
-                    currentHumidity.setLabel("Current Humidity: " + currentW.get("relative_humidity_2m") + "%");
-                    currentWind.setLabel("Current Wind: " + currentW.get("wind_speed_10m") + "km/h");
+                    // WeatherData myD = new WeatherData(lat, lon);
+
+                    Map<String, String> currentW;
+                    try {
+                        currentW = completableFuture.get();
+
+                        currentTemp.setLabel("Current Temp: " + currentW.get("temperature_2m") +
+                                "°C");
+                        currentPressure.setLabel("Current Pressure: " +
+                                currentW.get("surface_pressure") + " mmHg");
+                        currentHumidity.setLabel("Current Humidity: " +
+                                currentW.get("relative_humidity_2m") + "%");
+                        currentWind.setLabel("Current Wind: " + currentW.get("wind_speed_10m") +
+                                "km/h");
+                    } catch (InterruptedException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    } catch (ExecutionException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    } // myD.getCurrentWeatherData();
                 }
             }
         };
@@ -77,5 +104,21 @@ public class App {
         // myWindow.addText("The Current Temp Is", 3, 3, 20, 10);
 
         app.run();
+    }
+
+    public static Map<String, String> fetchWeatherData(String location) {
+
+        List<Double> cords = Geocode.getLatLong(location);
+
+        Double lat = cords.get(0);
+        Double lon = cords.get(1);
+        WeatherData myD = new WeatherData(lat, lon);
+        Map<String, String> weatherdata = myD.getCurrentWeatherData();
+
+        return weatherdata;
+    }
+
+    public static void test(TLabel label) {
+        label.setLabel("Loading");
     }
 }
