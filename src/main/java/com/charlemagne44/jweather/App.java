@@ -38,12 +38,7 @@ public class App {
         ArrayList<TLabel> labelList = new ArrayList<TLabel>();
 
         TWindow myWindow = new TWindow(app, "MyWindow 2", 80, 25);
-        // TText currentTemp = new TText(myWindow, "Current Temp: ", 0, 3, 0, 0,
-        // "blue");
-        // TText currentTemp = new TText(myWindow, "Current Temp: ", 0, 3, 0, 0,
-        // "blue");
 
-        // This is longer than it needs to be imo
         TLabel currentTemp = myWindow.addLabel("Current Temp: ", label_offset, label_y_offset + 0); // "temperature_2m"
         labelList.add(currentTemp);
         TLabel currentPressure = myWindow.addLabel("Current Pressure: ", label_offset, label_y_offset + 1); // "surface_pressure"
@@ -55,10 +50,11 @@ public class App {
 
         TProgressBar progressBar = new TProgressBar(currentWind, 0, 1, 30, 1);
 
+        // This is ridiculous and needs to be refactored, the entire UI shold probably
+        // be its own class
         TAction myAction = new TAction() {
             @Override
             public void DO() {
-                // testAction.DO();
                 if (source instanceof jexer.TField) {
                     String customT = ((jexer.TField) source).getText();
                     ScheduledExecutorService myExecutorService = Executors.newSingleThreadScheduledExecutor();
@@ -84,35 +80,6 @@ public class App {
                     currentPressure.setLabel("Loading...");
                     currentHumidity.setLabel("Loading...");
                     currentWind.setLabel("Loading...");
-                    // while (!completableFuture.isDone()) {
-                    // Just blocking here?
-                    // }
-                    // List<Double> cords = Geocode.getLatLong(customT);
-
-                    // Double lat = cords.get(0);
-                    // Double lon = cords.get(1);
-
-                    // WeatherData myD = new WeatherData(lat, lon);
-
-                    // Map<String, String> currentW;
-                    // try {
-                    // currentW = completableFuture.get();
-
-                    // currentTemp.setLabel("Current Temp: " + currentW.get("temperature_2m") +
-                    // "°C");
-                    // currentPressure.setLabel("Current Pressure: " +
-                    // currentW.get("surface_pressure") + " mmHg");
-                    // currentHumidity.setLabel("Current Humidity: " +
-                    // currentW.get("relative_humidity_2m") + "%");
-                    // currentWind.setLabel("Current Wind: " + currentW.get("wind_speed_10m") +
-                    // "km/h");
-                    // } catch (InterruptedException e) {
-                    // // TODO Auto-generated catch block
-                    // e.printStackTrace();
-                    // } catch (ExecutionException e) {
-                    // // TODO Auto-generated catch block
-                    // e.printStackTrace();
-                    // } // myD.getCurrentWeatherData();
                 }
             }
         };
@@ -140,15 +107,5 @@ public class App {
         bar.setValue(100);
 
         return weatherdata;
-    }
-
-    public static void test(TProgressBar progressBar) {
-        int currentValue = progressBar.getValue();
-        currentValue = currentValue + 5;
-        if (currentValue > 100) {
-            currentValue = 5;
-        } else {
-            progressBar.setValue(currentValue);
-        }
     }
 }
