@@ -31,36 +31,36 @@ public class WeatherData {
 
     public Map<String, String> getCurrentWeatherData() {
         String currentFields = "&current=temperature_2m,"
-                        +"relative_humidity_2m,apparent_temperature,is_day,precipitation,rain,showers,snowfall,weather_code,"
-                        +"cloud_cover,pressure_msl,surface_pressure,wind_speed_10m,wind_direction_10m,"
-                        +"wind_gusts_10m";
+                + "relative_humidity_2m,apparent_temperature,is_day,precipitation,rain,showers,snowfall,weather_code,"
+                + "cloud_cover,pressure_msl,surface_pressure,wind_speed_10m,wind_direction_10m,"
+                + "wind_gusts_10m";
         String currentWeatherJSON = getWeatherJSON(currentFields);
-        Map <String, String> currentWeatherMap = parseCurrentWeatherJSON(currentWeatherJSON, "current");
+        Map<String, String> currentWeatherMap = parseCurrentWeatherJSON(currentWeatherJSON, "current");
         return currentWeatherMap;
     }
 
     public Map<String, String> getHourlyWeatherData() {
         String hourlyFields = "&hourly=temperature_2m,relative_humidity_2m,dew_point_2m,apparent_temperature,"
-                        +"precipitation_probability,precipitation,rain,showers,snowfall,snow_depth,weather_code,pressure_msl"
-                        +",surface_pressure,cloud_cover,cloud_cover_low,cloud_cover_mid,cloud_cover_high,visibility,"
-                        +"evapotranspiration,et0_fao_evapotranspiration,vapour_pressure_deficit,wind_speed_10m,wind_speed_80m,"
-                        +"wind_speed_120m,wind_direction_10m,wind_direction_80m,wind_direction_120m,temperature_80m,"
-                        +"temperature_120m,temperature_180m,soil_temperature_0cm,soil_temperature_6cm,soil_temperature_18cm,"
-                        +"uv_index,uv_index_clear_sky,freezing_level_height,sunshine_duration,shortwave_radiation,direct_radiation,"
-                        +"diffuse_radiation,direct_normal_irradiance,terrestrial_radiation,shortwave_radiation_instant,"
-                        +"direct_radiation_instant,diffuse_radiation_instant,direct_normal_irradiance_instant,"
-                        +"terrestrial_radiation_instant";
+                + "precipitation_probability,precipitation,rain,showers,snowfall,snow_depth,weather_code,pressure_msl"
+                + ",surface_pressure,cloud_cover,cloud_cover_low,cloud_cover_mid,cloud_cover_high,visibility,"
+                + "evapotranspiration,et0_fao_evapotranspiration,vapour_pressure_deficit,wind_speed_10m,wind_speed_80m,"
+                + "wind_speed_120m,wind_direction_10m,wind_direction_80m,wind_direction_120m,temperature_80m,"
+                + "temperature_120m,temperature_180m,soil_temperature_0cm,soil_temperature_6cm,soil_temperature_18cm,"
+                + "uv_index,uv_index_clear_sky,freezing_level_height,sunshine_duration,shortwave_radiation,direct_radiation,"
+                + "diffuse_radiation,direct_normal_irradiance,terrestrial_radiation,shortwave_radiation_instant,"
+                + "direct_radiation_instant,diffuse_radiation_instant,direct_normal_irradiance_instant,"
+                + "terrestrial_radiation_instant";
         String hourlyWeatherJSON = getWeatherJSON(hourlyFields);
-        Map <String, String> hourlyWeatherMap = parseCurrentWeatherJSON(hourlyWeatherJSON, "hourly");
+        Map<String, String> hourlyWeatherMap = parseCurrentWeatherJSON(hourlyWeatherJSON, "hourly");
         return hourlyWeatherMap;
     }
 
     public Map<String, String> getDailyWeatherData() {
         String dailyFields = "&daily=weather_code,sunrise,sunset,daylight_duration,sunshine_duration,"
-                        +"uv_index_max,uv_index_clear_sky_max,precipitation_sum,rain_sum,showers_sum,snowfall_sum,precipitation_hours,"
-                        +"precipitation_probability_max";
+                + "uv_index_max,uv_index_clear_sky_max,precipitation_sum,rain_sum,showers_sum,snowfall_sum,precipitation_hours,"
+                + "precipitation_probability_max";
         String dailyWeatherJSON = getWeatherJSON(dailyFields);
-        Map <String, String> dailyWeatherMap = parseCurrentWeatherJSON(dailyWeatherJSON, "daily");
+        Map<String, String> dailyWeatherMap = parseCurrentWeatherJSON(dailyWeatherJSON, "daily");
         return dailyWeatherMap;
     }
 
@@ -69,7 +69,7 @@ public class WeatherData {
         try {
             JSONObject json = new JSONObject(jsonResponse);
             JSONObject responseCategory = json.getJSONObject(responseKey);
-            
+
             Iterator<String> keys = responseCategory.keys();
             while (keys.hasNext()) {
                 String key = keys.next();

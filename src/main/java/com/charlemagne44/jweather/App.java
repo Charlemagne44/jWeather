@@ -1,5 +1,6 @@
 package com.charlemagne44.jweather;
 
+import com.charlemagne44.jweather.frontend.HomePage;
 import com.charlemagne44.jweather.geocodingapi.Geocode;
 import com.charlemagne44.jweather.weatherapi.WeatherData;
 
@@ -85,7 +86,7 @@ public class App {
         };
 
         myWindow.addField(0, 0, 20, false, "Enter a City", myAction);
-
+        HomePage myHomePage = new HomePage(app);
         app.run();
     }
 
