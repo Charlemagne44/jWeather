@@ -66,23 +66,10 @@ public class App {
                     WeatherData myD = new WeatherData(lat, lon);
                     Map<String, String> currentW = myD.getCurrentWeatherData();
 
-                    // Remove labels from the display
-                    for (int index = 0; index < labelList.size(); index++) {
-                        myWindow.remove(labelList.get(index));
-                    }
-                    // Remove the old labels from the list here
-                    labelList.clear();
-
-                    // There's def a cuter way to do this, updating the label information
-                    labelList.add(myWindow.addLabel("Current Temp: " + currentW.get("temperature_2m") + "°C",
-                            label_offset, label_y_offset + 0));
-                    labelList.add(myWindow.addLabel(
-                            "Current Pressure: " + currentW.get("surface_pressure") + " mmHg", label_offset,
-                            label_y_offset + 1));
-                    labelList.add(myWindow.addLabel("Current Humidity: " + currentW.get("relative_humidity_2m") + "%",
-                            label_offset, label_y_offset + 2));
-                    labelList.add(myWindow.addLabel("Current Wind: " + currentW.get("wind_speed_10m") + "km/h",
-                            label_offset, label_y_offset + 3));
+                    currentTemp.setLabel("Current Temp: " + currentW.get("temperature_2m") + "°C");
+                    currentPressure.setLabel("Current Pressure: " + currentW.get("surface_pressure") + " mmHg");
+                    currentHumidity.setLabel("Current Humidity: " + currentW.get("relative_humidity_2m") + "%");
+                    currentWind.setLabel("Current Wind: " + currentW.get("wind_speed_10m") + "km/h");
                 }
             }
         };
