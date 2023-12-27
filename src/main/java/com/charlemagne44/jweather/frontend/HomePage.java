@@ -82,7 +82,7 @@ public class HomePage {
         this.windLabel = new TLabel(this.window, "Current Wind: ", label_x_offset, label_y_offset + 3);
 
         // Progress bar
-        this.progressBar = new TProgressBar(this.window, label_x_offset, label_y_offset + 4, 30, 50);
+        this.progressBar = new TProgressBar(this.window, label_x_offset, label_y_offset + 4, 30, 0);
     }
 
     private Integer updateWeatherLabels(String location) {
