@@ -10,7 +10,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.HashSet;
 
 import jexer.TAction;
@@ -30,8 +32,6 @@ public class App {
         app.addToolMenu();
         app.addFileMenu();
         app.addWindowMenu();
-
-        HashSet<ScheduledExecutorService> subscriptions = new HashSet<ScheduledExecutorService>();
 
         int label_offset = 1;
         int label_y_offset = 1;
@@ -61,10 +61,25 @@ public class App {
                 // testAction.DO();
                 if (source instanceof jexer.TField) {
                     String customT = ((jexer.TField) source).getText();
+                    ScheduledExecutorService myExecutorService = Executors.newSingleThreadScheduledExecutor();
+                    myExecutorService.scheduleAtFixedRate(new Runnable() {
+                        @Override
+                        public void run() {
+                            int currentValue = progressBar.getValue();
+                            currentValue = currentValue + 5;
+                            if (currentValue > 100) {
+                                currentValue = 5;
+                            } else {
+                                progressBar.setValue(currentValue);
+                            }
+                        }
+                    }, 0, 250, TimeUnit.MILLISECONDS);
+
                     CompletableFuture<Map<String, String>> completableFuture = CompletableFuture
                             .supplyAsync(() -> fetchWeatherData(customT, currentTemp, currentPressure, currentHumidity,
-                                    currentWind));
+                                    currentWind, myExecutorService, progressBar));
 
+                    progressBar.setValue(0);
                     currentTemp.setLabel("Loading...");
                     currentPressure.setLabel("Loading...");
                     currentHumidity.setLabel("Loading...");
@@ -108,7 +123,7 @@ public class App {
     }
 
     public static Map<String, String> fetchWeatherData(String location, TLabel currentTemp, TLabel currentPressure,
-            TLabel currentHumidity, TLabel currentWind) {
+            TLabel currentHumidity, TLabel currentWind, ScheduledExecutorService ses, TProgressBar bar) {
 
         List<Double> cords = Geocode.getLatLong(location);
 
@@ -121,10 +136,19 @@ public class App {
         currentHumidity.setLabel("Current Humidity: " + weatherdata.get("relative_humidity_2m") + "%");
         currentWind.setLabel("Current Wind: " + weatherdata.get("wind_speed_10m") + "km/h");
 
+        ses.shutdown();
+        bar.setValue(100);
+
         return weatherdata;
     }
 
-    public static void test(TLabel label) {
-        label.setLabel("Loading");
+    public static void test(TProgressBar progressBar) {
+        int currentValue = progressBar.getValue();
+        currentValue = currentValue + 5;
+        if (currentValue > 100) {
+            currentValue = 5;
+        } else {
+            progressBar.setValue(currentValue);
+        }
     }
 }
