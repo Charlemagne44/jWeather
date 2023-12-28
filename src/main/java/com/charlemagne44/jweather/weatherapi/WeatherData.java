@@ -22,15 +22,15 @@ public class WeatherData {
 
     Map<String, String> currentWeather;
     Map<String, String> currentWeatherUnits;
-    Map<String, List<String>> current; // key -> List[Value, Unit]
+    Map<String, String> current; // key -> Value + Unit
 
     Map<String, String> hourlyWeather;
     Map<String, String> hourlyWeatherUnits;
-    Map<String, List<String>> hourly; // key -> List[Value, Unit]
+    Map<String, String> hourly; // key -> Value + Unit
 
     Map<String, String> dailyWeather;
     Map<String, String> dailyWeatherUnits;
-    Map<String, List<String>> daily; // key -> List[Value, Unit]
+    Map<String, String> daily; // key -> Value + Unit
 
     public double getLatitude() {
         return latitude;
@@ -40,15 +40,15 @@ public class WeatherData {
         return longitude;
     }
 
-    public Map<String, List<String>> getCurrent() {
+    public Map<String, String> getCurrent() {
         return current;
     }
 
-    public Map<String, List<String>> getHourly() {
+    public Map<String, String> getHourly() {
         return hourly;
     }
 
-    public Map<String, List<String>> getDaily() {
+    public Map<String, String> getDaily() {
         return daily;
     }
 
@@ -58,18 +58,15 @@ public class WeatherData {
     }
 
     /* Combine the weather data + units into a Map<String, List<String>> */
-    private Map<String, List<String>> combineWeatherData(Map<String, String> weatherData,
+    private Map<String, String> combineWeatherData(Map<String, String> weatherData,
             Map<String, String> weatherUnits) {
         // the Keys between the data and the units are the same in the JSON response
-        Map<String, List<String>> combinedMap = new HashMap<>();
+        Map<String, String> combinedMap = new HashMap<>();
         for (Map.Entry<String, String> entry : weatherData.entrySet()) {
             String key = entry.getKey();
             String data = entry.getValue();
             String unit = weatherUnits.get(key);
-            List<String> dataUnit = new ArrayList<>();
-            dataUnit.add(data);
-            dataUnit.add(unit);
-            combinedMap.put(key, dataUnit);
+            combinedMap.put(key, data + unit);
         }
         return combinedMap;
     }
