@@ -49,7 +49,9 @@ public class HomePage {
             if (source instanceof jexer.TField) {
                 // Set progress bar to 0 and make lables loading
                 progressBar.setValue(0);
+
                 temperatureLabel.setLabel("Loading...");
+                precipitationLabel.setLabel("Loading...");
                 pressureLabel.setLabel("Loading...");
                 humidityLabel.setLabel("Loading...");
                 windLabel.setLabel("Loading...");
@@ -84,28 +86,17 @@ public class HomePage {
 
         // Labels
         this.temperatureLabel = new TLabel(this.window, "Current Temp: ", label_x_offset, label_y_offset + 0);
-        this.pressureLabel = new TLabel(this.window, "Current Pressure: ", label_x_offset, label_y_offset + 1);
-        this.humidityLabel = new TLabel(this.window, "Current Humidity: ", label_x_offset, label_y_offset + 2);
-        this.windLabel = new TLabel(this.window, "Current Wind: ", label_x_offset, label_y_offset + 3);
+        this.precipitationLabel = new TLabel(this.window, "Past Hour Precipitation: ", label_x_offset,
+                label_y_offset + 1);
+        this.pressureLabel = new TLabel(this.window, "Current Pressure: ", label_x_offset, label_y_offset + 2);
+        this.humidityLabel = new TLabel(this.window, "Current Humidity: ", label_x_offset, label_y_offset + 3);
+        this.windLabel = new TLabel(this.window, "Current Wind: ", label_x_offset, label_y_offset + 4);
 
         // Progress bar
-        this.progressBar = new TProgressBar(this.window, label_x_offset, label_y_offset + 4, 30, 0);
+        this.progressBar = new TProgressBar(this.window, label_x_offset, label_y_offset + 5, 30, 0);
 
         // Debug text output
-        this.debugText = new TText(this.window, "Debug Text", label_x_offset, label_y_offset + 5, 40, 40);
-
-        // ColorTheme mytheme = new ColorTheme();
-        // mytheme.setFemme();
-        // CellAttributes myAttributes = new CellAttributes();
-        // // myAttributes.setForeColor(jexer.bits.Color.GREEN);
-        // // myAttributes.setBackColor(jexer.bits.Color.GREEN);
-        // // myAttributes.setBold(true);
-        // // mytheme.setColor("tlabel", myAttributes);
-        // // mytheme.setColorFromString("tlabel", "bold blue on blue");
-        // windLabel.setLabel(mytheme.getColor("tlabel").toString());
-        // window.setWindowTheme(mytheme);
-        // System.out.println(window.getTheme().toString());
-
+        this.debugText = new TText(this.window, "Debug Text", label_x_offset, label_y_offset + 6, 40, 40);
     }
 
     private Integer updateWeatherLabels(String location) {
@@ -117,9 +108,10 @@ public class HomePage {
         // Fetch weather for location
         WeatherData myD = new WeatherData(lat, lon);
         Map<String, String> weatherdata = myD.getCurrentWeatherData();
-
+        Map<String, String> dailyData = myD.getDailyWeatherData();
         // Update labels with data
         temperatureLabel.setLabel("Current Temp: " + weatherdata.get("temperature_2m") + "°C");
+        precipitationLabel.setLabel("Past Hour Precipitation: " + weatherdata.get("precipitation") + "mm");
         pressureLabel.setLabel("Current Pressure: " + weatherdata.get("surface_pressure") + "mmHg");
         humidityLabel.setLabel("Current Humidity: " + weatherdata.get("relative_humidity_2m") + "%");
         windLabel.setLabel("Current Wind: " + weatherdata.get("wind_speed_10m") + "km/h");
@@ -130,7 +122,7 @@ public class HomePage {
         this.progressBar.setValue(100);
 
         //
-        this.debugText.setText(weatherdata.toString());
+        this.debugText.setText(dailyData.toString());
 
         return 0;
     }
