@@ -4,6 +4,8 @@ import com.charlemagne44.jweather.frontend.HomePage;
 
 import jexer.TApplication;
 
+import com.charlemagne44.jweather.frontend.JexerImageViewer;
+
 public class App {
     public static void main(String[] args) throws Exception {
 
