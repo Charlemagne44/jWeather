@@ -1,5 +1,6 @@
 package com.charlemagne44.jweather.frontend;
 
+import java.awt.Color;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
@@ -15,18 +16,24 @@ import jexer.TApplication;
 import jexer.TField;
 import jexer.TLabel;
 import jexer.TProgressBar;
+import jexer.TText;
 import jexer.TWindow;
+import jexer.bits.CellAttributes;
+import jexer.bits.ColorTheme;
 
 public class HomePage {
+
     // UI Elements
     private TApplication app;
     private TWindow window;
     private TField cityInputField;
     private TLabel temperatureLabel;
+    private TLabel precipitationLabel;
     private TLabel pressureLabel;
     private TLabel humidityLabel;
     private TLabel windLabel;
     private TProgressBar progressBar;
+    private TText debugText;
 
     // Futures and Executors for async
     private CompletableFuture<Integer> weatherUpdateFuture;
@@ -83,6 +90,22 @@ public class HomePage {
 
         // Progress bar
         this.progressBar = new TProgressBar(this.window, label_x_offset, label_y_offset + 4, 30, 0);
+
+        // Debug text output
+        this.debugText = new TText(this.window, "Debug Text", label_x_offset, label_y_offset + 5, 40, 40);
+
+        // ColorTheme mytheme = new ColorTheme();
+        // mytheme.setFemme();
+        // CellAttributes myAttributes = new CellAttributes();
+        // // myAttributes.setForeColor(jexer.bits.Color.GREEN);
+        // // myAttributes.setBackColor(jexer.bits.Color.GREEN);
+        // // myAttributes.setBold(true);
+        // // mytheme.setColor("tlabel", myAttributes);
+        // // mytheme.setColorFromString("tlabel", "bold blue on blue");
+        // windLabel.setLabel(mytheme.getColor("tlabel").toString());
+        // window.setWindowTheme(mytheme);
+        // System.out.println(window.getTheme().toString());
+
     }
 
     private Integer updateWeatherLabels(String location) {
@@ -97,7 +120,7 @@ public class HomePage {
 
         // Update labels with data
         temperatureLabel.setLabel("Current Temp: " + weatherdata.get("temperature_2m") + "°C");
-        pressureLabel.setLabel("Current Pressure: " + weatherdata.get("surface_pressure") + " mmHg");
+        pressureLabel.setLabel("Current Pressure: " + weatherdata.get("surface_pressure") + "mmHg");
         humidityLabel.setLabel("Current Humidity: " + weatherdata.get("relative_humidity_2m") + "%");
         windLabel.setLabel("Current Wind: " + weatherdata.get("wind_speed_10m") + "km/h");
 
@@ -105,6 +128,9 @@ public class HomePage {
         this.progressBarExecutor.shutdown();
         // Jump progress bar to 100%
         this.progressBar.setValue(100);
+
+        //
+        this.debugText.setText(weatherdata.toString());
 
         return 0;
     }
