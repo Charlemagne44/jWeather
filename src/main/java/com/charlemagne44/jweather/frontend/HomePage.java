@@ -1,6 +1,10 @@
 package com.charlemagne44.jweather.frontend;
 
-import java.awt.Color;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
@@ -8,12 +12,16 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import javax.imageio.ImageIO;
+import javax.imageio.ImageTypeSpecifier;
+
 import com.charlemagne44.jweather.geocodingapi.Geocode;
 import com.charlemagne44.jweather.weatherapi.WeatherData;
 
 import jexer.TAction;
 import jexer.TApplication;
 import jexer.TField;
+import jexer.TImage;
 import jexer.TLabel;
 import jexer.TProgressBar;
 import jexer.TText;
@@ -34,6 +42,7 @@ public class HomePage {
     private TLabel windLabel;
     private TProgressBar progressBar;
     private TText debugText;
+    private TImage testImage;
 
     // Futures and Executors for async
     private CompletableFuture<Integer> weatherUpdateFuture;
@@ -79,7 +88,7 @@ public class HomePage {
         this.app = application;
 
         // Window that our app exists in
-        this.window = new TWindow(this.app, "Weather Homepage", 50, 30);
+        this.window = new TWindow(this.app, "Weather Homepage", 65, 30);
 
         // City Input
         this.cityInputField = new TField(this.window, 0, 0, 30, false, "Enter a City", inputAction);
@@ -96,7 +105,29 @@ public class HomePage {
         this.progressBar = new TProgressBar(this.window, label_x_offset, label_y_offset + 5, 30, 0);
 
         // Debug text output
-        this.debugText = new TText(this.window, "Debug Text", label_x_offset, label_y_offset + 6, 40, 40);
+        this.debugText = new TText(this.window, "Debug Text", label_x_offset, label_y_offset + 6, 60, 40);
+
+        // Trying to load an image
+        // try {
+        // try {
+        // BufferedImage sample = ImageIO.read(new File(
+        // "/Users/ianmccabe/Developer/jWeather/src/main/java/com/charlemagne44/jweather/frontend/sun.svg"));
+
+        // // try {
+        // try {
+        // this.testImage = new TImage(this.window, 40, 1, 10, 10, sample, 0, 0);
+        // this.testImage.setScaleType(TImage.Scale.SCALE);
+        // } catch (NullPointerException e) {
+        // debugText.setText(e.toString());
+        // }
+
+        // } catch (IOException e) {
+        // windLabel.setLabel("There was an error loading the image");
+        // }
+        // windLabel.setLabel("No errors loading the image");
+        // } finally {
+
+        // }
     }
 
     private Integer updateWeatherLabels(String location) {
@@ -121,8 +152,11 @@ public class HomePage {
         // Jump progress bar to 100%
         this.progressBar.setValue(100);
 
-        //
-        this.debugText.setText(dailyData.toString());
+        // View api map in the debug window
+        // this.debugText.setText(dailyData.toString());
+
+        // BufferedImage b = new BufferedImage(label_x_offset, label_y_offset,
+        // ImageTypeSpecifier.createFromBufferedIma)
 
         return 0;
     }
@@ -138,4 +172,21 @@ public class HomePage {
         }
     }
 
+    // http://openweathermap.org/img/wn/01d@2x.png
+    private BufferedImage downloadImage(String url) {
+        HttpURLConnection connection = null;
+        try {
+            connection = (HttpURLConnection) new URL(url).openConnection();
+            connection.connect();
+            BufferedImage image = ImageIO.read(connection.getInputStream());
+            connection.disconnect();
+            return image;
+        } catch (IOException e) {
+            e.printStackTrace();
+            if (connection != null) {
+                connection.disconnect();
+            }
+            return null;
+        }
+    }
 }
