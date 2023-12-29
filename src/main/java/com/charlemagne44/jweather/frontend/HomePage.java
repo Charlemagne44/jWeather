@@ -94,7 +94,7 @@ public class HomePage {
         this.cityInputField = new TField(this.window, 0, 0, 30, false, "Enter a City", inputAction);
 
         // Labels
-        this.temperatureLabel = new TLabel(this.window, "Current Temp: ", label_x_offset, label_y_offset + 0);
+        this.temperatureLabel = new TLabel(this.window, "Current Temp: ☀️ ☁️", label_x_offset, label_y_offset + 0);
         this.precipitationLabel = new TLabel(this.window, "Past Hour Precipitation: ", label_x_offset,
                 label_y_offset + 1);
         this.pressureLabel = new TLabel(this.window, "Current Pressure: ", label_x_offset, label_y_offset + 2);
