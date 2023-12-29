@@ -94,7 +94,7 @@ public class HomePage {
         this.cityInputField = new TField(this.window, 0, 0, 30, false, "Enter a City", inputAction);
 
         // Labels
-        this.temperatureLabel = new TLabel(this.window, "Current Temp: ☀️ ☁️", label_x_offset, label_y_offset + 0);
+        this.temperatureLabel = new TLabel(this.window, "Current Temp: ", label_x_offset, label_y_offset + 0);
         this.precipitationLabel = new TLabel(this.window, "Past Hour Precipitation: ", label_x_offset,
                 label_y_offset + 1);
         this.pressureLabel = new TLabel(this.window, "Current Pressure: ", label_x_offset, label_y_offset + 2);
@@ -108,26 +108,14 @@ public class HomePage {
         this.debugText = new TText(this.window, "Debug Text", label_x_offset, label_y_offset + 6, 60, 40);
 
         // Trying to load an image
-        // try {
-        // try {
-        // BufferedImage sample = ImageIO.read(new File(
-        // "/Users/ianmccabe/Developer/jWeather/src/main/java/com/charlemagne44/jweather/frontend/sun.svg"));
-
-        // // try {
-        // try {
-        // this.testImage = new TImage(this.window, 40, 1, 10, 10, sample, 0, 0);
-        // this.testImage.setScaleType(TImage.Scale.SCALE);
-        // } catch (NullPointerException e) {
-        // debugText.setText(e.toString());
-        // }
-
-        // } catch (IOException e) {
-        // windLabel.setLabel("There was an error loading the image");
-        // }
-        // windLabel.setLabel("No errors loading the image");
-        // } finally {
-
-        // }
+        try {
+            BufferedImage sample = ImageIO.read(new URL(
+                    "http://openweathermap.org/img/wn/01d@2x.png"));
+            this.testImage = new TImage(this.window, 31, 1, 10, 5, sample, 0, 0);
+            this.testImage.setScaleType(TImage.Scale.SCALE);
+        } catch (IOException e) {
+            debugText.setText(e.toString());
+        }
     }
 
     private Integer updateWeatherLabels(String location) {
