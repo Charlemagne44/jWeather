@@ -1,8 +1,9 @@
 package com.charlemagne44.jweather.frontend;
 
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
@@ -13,7 +14,9 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import javax.imageio.ImageIO;
-import javax.imageio.ImageTypeSpecifier;
+
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 
 import com.charlemagne44.jweather.geocodingapi.Geocode;
 import com.charlemagne44.jweather.weatherapi.WeatherData;
@@ -26,8 +29,6 @@ import jexer.TLabel;
 import jexer.TProgressBar;
 import jexer.TText;
 import jexer.TWindow;
-import jexer.bits.CellAttributes;
-import jexer.bits.ColorTheme;
 
 public class HomePage {
 
@@ -71,6 +72,8 @@ public class HomePage {
                 // Async update city labels
                 weatherUpdateFuture = CompletableFuture.supplyAsync(() -> updateWeatherLabels(inputCity));
 
+                // updateWeatherLabels(inputCity);
+
                 // Begin updating the progress bar ever 1/4 second
                 progressBarExecutor = Executors.newSingleThreadScheduledExecutor();
                 progressBarExecutor.scheduleAtFixedRate(new Runnable() {
@@ -79,6 +82,8 @@ public class HomePage {
                         updateProgressBar();
                     }
                 }, 0, 250, TimeUnit.MILLISECONDS);
+
+                // getWeatherImage("0");
             }
         }
     };
@@ -105,17 +110,7 @@ public class HomePage {
         this.progressBar = new TProgressBar(this.window, label_x_offset, label_y_offset + 5, 30, 0);
 
         // Debug text output
-        this.debugText = new TText(this.window, "Debug Text", label_x_offset, label_y_offset + 6, 60, 40);
-
-        // Trying to load an image
-        try {
-            BufferedImage sample = ImageIO.read(new URL(
-                    "http://openweathermap.org/img/wn/01d@2x.png"));
-            this.testImage = new TImage(this.window, 31, 1, 10, 5, sample, 0, 0);
-            this.testImage.setScaleType(TImage.Scale.SCALE);
-        } catch (IOException e) {
-            debugText.setText(e.toString());
-        }
+        this.debugText = new TText(this.window, "Debug Text", label_x_offset, label_y_offset + 6, 30, 20);
     }
 
     private Integer updateWeatherLabels(String location) {
@@ -141,10 +136,10 @@ public class HomePage {
         this.progressBar.setValue(100);
 
         // View api map in the debug window
-        // this.debugText.setText(dailyData.toString());
+        this.debugText.setText(weatherdata.toString());
 
-        // BufferedImage b = new BufferedImage(label_x_offset, label_y_offset,
-        // ImageTypeSpecifier.createFromBufferedIma)
+        // TODO: Possibly implement scaling
+        getWeatherImage(weatherdata.get("weather_code"));
 
         return 0;
     }
@@ -175,6 +170,41 @@ public class HomePage {
                 connection.disconnect();
             }
             return null;
+        }
+    }
+
+    private void getWeatherImage(String WMOCode) {
+        JSONParser parser = new JSONParser();
+        try {
+            // This is god awful but it works, need to pick a different JSON library or
+            // something
+            InputStream is = getClass().getClassLoader().getResourceAsStream("weatherDescriptions.json");
+            JSONObject json = (JSONObject) parser.parse(new InputStreamReader(is,
+                    "UTF-8"));
+
+            JSONObject codeObject = (JSONObject) json.get(WMOCode);
+            JSONObject imageAndDescriptor = (JSONObject) codeObject.get("day");
+
+            BufferedImage image = ImageIO.read(new URL(imageAndDescriptor.get("image").toString()));
+            if (image != null) {
+                if (this.testImage != null) {
+                    this.testImage.remove();
+                }
+                try {
+                    this.testImage = new TImage(this.window, 31, 1, 15, 10, image, 0, 0);
+                    // TODO: This breaks everything
+                    // this.testImage.setScaleType(TImage.Scale.SCALE);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    debugText.setText(e.getLocalizedMessage());
+                }
+
+            } else {
+                debugText.setText(imageAndDescriptor.get("image").toString());
+            }
+
+        } catch (Exception e) {
+            debugText.setText("There was an error: " + e.getLocalizedMessage());
         }
     }
 }
