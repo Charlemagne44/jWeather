@@ -140,6 +140,7 @@ public class HomePage {
 
         // TODO: Possibly implement scaling
         getWeatherImage(weatherdata.get("weather_code"));
+        this.testImage.setScaleType(TImage.Scale.SCALE);
 
         return 0;
     }
@@ -191,8 +192,9 @@ public class HomePage {
                     this.testImage.remove();
                 }
                 try {
-                    this.testImage = new TImage(this.window, 31, 1, 15, 10, image, 0, 0);
-                    // TODO: This breaks everything
+                    this.testImage = new TImage(this.window, 31, 1, 10, 5, image, 0, 0);
+                    // TODO: This breaks everything, maybe add a delay or something prior to
+                    // rescaling the image?
                     // this.testImage.setScaleType(TImage.Scale.SCALE);
                 } catch (Exception e) {
                     e.printStackTrace();
