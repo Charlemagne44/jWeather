@@ -6,11 +6,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Scanner;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 public class Apirequest {
-    public static JSONObject request(String requestURL) {
+    public static String request(String requestURL) {
         try {
             URL url = new URL(requestURL);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -27,16 +24,12 @@ public class Apirequest {
                     response += scanner.nextLine();
                 }
                 scanner.close();
-                JSONObject jsonObject = new JSONObject(response);
-                return jsonObject;
+                return response;
             }
         } catch (MalformedURLException e) {
             e.printStackTrace();
             return null;
         } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        } catch (JSONException e) {
             e.printStackTrace();
             return null;
         }

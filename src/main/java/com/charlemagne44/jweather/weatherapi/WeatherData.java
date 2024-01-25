@@ -1,5 +1,6 @@
 package com.charlemagne44.jweather.weatherapi;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.charlemagne44.jweather.apirequest.Apirequest;
@@ -33,17 +34,32 @@ public class WeatherData {
 
     public void setCurrentWeather(double latitude, double longitude) {
         String constructedURL = String.format(currentRequest, latitude, longitude);
-        this.currentWeather = Apirequest.request(constructedURL);
+        try {
+            JSONObject jsonResponse = new JSONObject(Apirequest.request(constructedURL));
+            this.currentWeather = jsonResponse;
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     public void setHourlyWeather(double latitude, double longitude) {
-        String constructedURL = String.format(currentRequest, latitude, longitude);
-        this.hourlyWeather = Apirequest.request(constructedURL);
+        String constructedURL = String.format(hourlyRequest, latitude, longitude);
+        try {
+            JSONObject jsonResponse = new JSONObject(Apirequest.request(constructedURL));
+            this.hourlyWeather = jsonResponse;
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     public void setDailyWeather(double latitude, double longitude) {
-        String constructedURL = String.format(currentRequest, latitude, longitude);
-        this.dailyWeather = Apirequest.request(constructedURL);
+        String constructedURL = String.format(dailyRequest, latitude, longitude);
+        try {
+            JSONObject jsonResponse = new JSONObject(Apirequest.request(constructedURL));
+            this.dailyWeather = jsonResponse;
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     public JSONObject getCurrentWeather() {

@@ -9,11 +9,12 @@ import com.charlemagne44.jweather.geocodingapi.Geocode.LatLong;
 public class GeocodeTest {
     @Test
     public void TestGetLatLong() {
-        String cityName = "New York";
+        String cityName = "New York City";
         Geocode geocoder = new Geocode();
         LatLong latlong = geocoder.getLatLong(cityName);
 
-        assertEquals(latlong.latitude, 35.7251496, 1.0);
-        assertEquals(latlong.longitude, 139.7630049, 1.0);
+        System.out.println(latlong);
+        assertEquals(40.7128, latlong.latitude, 1.0);
+        assertEquals(-74.0060, latlong.longitude, 1.0);
     }
 }

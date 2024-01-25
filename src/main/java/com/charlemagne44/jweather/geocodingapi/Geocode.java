@@ -16,7 +16,7 @@ import java.net.URL;
 
 public class Geocode {
 
-    class LatLong {
+    public class LatLong {
         public double latitude;
         public double longitude;
 
@@ -26,7 +26,7 @@ public class Geocode {
         }
     }
 
-    private static JSONObject getLocationJSONResponse(String location) {
+    private static String getLocationJSONResponse(String location) {
         try {
             // Example: Geocode by city name
             String nominatimUrl = "https://nominatim.openstreetmap.org/search?q=" + URLEncoder.encode(location, "UTF-8")
@@ -40,10 +40,10 @@ public class Geocode {
     }
 
     public LatLong getLatLong(String cityName) {
-        JSONObject jsonResponse = getLocationJSONResponse(cityName);
+        String stringResponse = getLocationJSONResponse(cityName);
         try {
             // Parse the JSON response
-            JSONArray jsonArray = new JSONArray(jsonResponse);
+            JSONArray jsonArray = new JSONArray(stringResponse);
 
             if (jsonArray.length() > 0) {
                 JSONObject firstResult = jsonArray.getJSONObject(0);
