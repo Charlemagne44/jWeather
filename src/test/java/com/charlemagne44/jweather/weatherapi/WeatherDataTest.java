@@ -1,4 +1,4 @@
-package com.charlemagne44.weatherapi;
+package com.charlemagne44.jweather.weatherapi;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
@@ -7,8 +7,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Ignore;
 import org.junit.Test;
-
-import com.charlemagne44.jweather.weatherapi.WeatherData;
 
 public class WeatherDataTest {
     @Test
