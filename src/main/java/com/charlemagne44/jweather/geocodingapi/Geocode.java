@@ -1,18 +1,11 @@
 package com.charlemagne44.jweather.geocodingapi;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.charlemagne44.jweather.apirequest.Apirequest;
-
-import java.net.URL;
 
 public class Geocode {
 
