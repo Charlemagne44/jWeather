@@ -1,14 +1,11 @@
 package com.charlemagne44.jweather.weatherapi;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import com.charlemagne44.jweather.apirequest.Apirequest;
 
 public class WeatherData {
-    JSONObject currentWeather;
-    JSONObject hourlyWeather;
-    JSONObject dailyWeather;
+    CurrentWeather currentWeather;
+    HourlyWeather hourlyWeather;
+    DailyWeather dailyWeather;
 
     static String currentRequest = String.join("",
             "https://api.open-meteo.com/v1/forecast?latitude=%f&longitude=%f&current=temperature_2m,",
@@ -34,43 +31,28 @@ public class WeatherData {
 
     public void setCurrentWeather(double latitude, double longitude) {
         String constructedURL = String.format(currentRequest, latitude, longitude);
-        try {
-            JSONObject jsonResponse = new JSONObject(Apirequest.request(constructedURL));
-            this.currentWeather = jsonResponse;
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        this.currentWeather = CurrentWeather.fromJson(Apirequest.request(constructedURL));
     }
 
     public void setHourlyWeather(double latitude, double longitude) {
         String constructedURL = String.format(hourlyRequest, latitude, longitude);
-        try {
-            JSONObject jsonResponse = new JSONObject(Apirequest.request(constructedURL));
-            this.hourlyWeather = jsonResponse;
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        this.hourlyWeather = HourlyWeather.fromJson(Apirequest.request(constructedURL));
     }
 
     public void setDailyWeather(double latitude, double longitude) {
         String constructedURL = String.format(dailyRequest, latitude, longitude);
-        try {
-            JSONObject jsonResponse = new JSONObject(Apirequest.request(constructedURL));
-            this.dailyWeather = jsonResponse;
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        this.dailyWeather = DailyWeather.fromJson(Apirequest.request(constructedURL));
     }
 
-    public JSONObject getCurrentWeather() {
+    public CurrentWeather getCurrentWeather() {
         return currentWeather;
     }
 
-    public JSONObject getHourlyWeather() {
+    public HourlyWeather getHourlyWeather() {
         return hourlyWeather;
     }
 
-    public JSONObject getDailyWeather() {
+    public DailyWeather getDailyWeather() {
         return dailyWeather;
     }
 
