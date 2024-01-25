@@ -31,6 +31,75 @@ public class CurrentWeather {
         private String wind_speed_10m; // Kilometers per hour
         private String wind_direction_10m; // Degrees
         private String wind_gusts_10m; // Kilometers per hour
+
+        public String getTime() {
+            return time;
+        }
+
+        public String getInterval() {
+            return interval;
+        }
+
+        public String getTemperature_2m() {
+            return temperature_2m;
+        }
+
+        public String getRelative_humidity_2m() {
+            return relative_humidity_2m;
+        }
+
+        public String getApparent_temperature() {
+            return apparent_temperature;
+        }
+
+        public String getIs_day() {
+            return is_day;
+        }
+
+        public String getPrecipitation() {
+            return precipitation;
+        }
+
+        public String getRain() {
+            return rain;
+        }
+
+        public String getShowers() {
+            return showers;
+        }
+
+        public String getSnowfall() {
+            return snowfall;
+        }
+
+        public String getWeather_code() {
+            return weather_code;
+        }
+
+        public String getCloud_cover() {
+            return cloud_cover;
+        }
+
+        public String getPressure_msl() {
+            return pressure_msl;
+        }
+
+        public String getSurface_pressure() {
+            return surface_pressure;
+        }
+
+        public String getWind_speed_10m() {
+            return wind_speed_10m;
+        }
+
+        public String getWind_direction_10m() {
+            return wind_direction_10m;
+        }
+
+        public String getWind_gusts_10m() {
+            return wind_gusts_10m;
+        }
+
     }
 
     public static class Current {
@@ -51,55 +120,71 @@ public class CurrentWeather {
         private double wind_speed_10m; // Kilometers per hour
         private int wind_direction_10m; // Degrees
         private double wind_gusts_10m; // Kilometers per hour
-        
+
         public String getTime() {
             return time;
         }
+
         public int getInterval() {
             return interval;
         }
+
         public double getTemperature_2m() {
             return temperature_2m;
         }
+
         public int getRelative_humidity_2m() {
             return relative_humidity_2m;
         }
+
         public double getApparent_temperature() {
             return apparent_temperature;
         }
+
         public int getIs_day() {
             return is_day;
         }
+
         public double getPrecipitation() {
             return precipitation;
         }
+
         public double getRain() {
             return rain;
         }
+
         public double getShowers() {
             return showers;
         }
+
         public double getSnowfall() {
             return snowfall;
         }
+
         public int getWeather_code() {
             return weather_code;
         }
+
         public int getCloud_cover() {
             return cloud_cover;
         }
+
         public double getPressure_msl() {
             return pressure_msl;
         }
+
         public double getSurface_pressure() {
             return surface_pressure;
         }
+
         public double getWind_speed_10m() {
             return wind_speed_10m;
         }
+
         public int getWind_direction_10m() {
             return wind_direction_10m;
         }
+
         public double getWind_gusts_10m() {
             return wind_gusts_10m;
         }
@@ -146,5 +231,4 @@ public class CurrentWeather {
         return current;
     }
 
-    
 }

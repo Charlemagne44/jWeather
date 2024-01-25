@@ -39,6 +39,99 @@ public class DailyWeather {
         private String wind_direction_10m_dominant; // Degrees
         private String shortwave_radiation_sum; // MJ/m²
         private String et0_fao_evapotranspiration; // Millimeters
+
+        public String getTime() {
+            return time;
+        }
+
+        public String getWeather_code() {
+            return weather_code;
+        }
+
+        public String getTemperature_2m_max() {
+            return temperature_2m_max;
+        }
+
+        public String getTemperature_2m_min() {
+            return temperature_2m_min;
+        }
+
+        public String getApparent_temperature_max() {
+            return apparent_temperature_max;
+        }
+
+        public String getApparent_temperature_min() {
+            return apparent_temperature_min;
+        }
+
+        public String getSunrise() {
+            return sunrise;
+        }
+
+        public String getSunset() {
+            return sunset;
+        }
+
+        public String getDaylight_duration() {
+            return daylight_duration;
+        }
+
+        public String getSunshine_duration() {
+            return sunshine_duration;
+        }
+
+        public String getUv_index_max() {
+            return uv_index_max;
+        }
+
+        public String getUv_index_clear_sky_max() {
+            return uv_index_clear_sky_max;
+        }
+
+        public String getPrecipitation_sum() {
+            return precipitation_sum;
+        }
+
+        public String getRain_sum() {
+            return rain_sum;
+        }
+
+        public String getShowers_sum() {
+            return showers_sum;
+        }
+
+        public String getSnowfall_sum() {
+            return snowfall_sum;
+        }
+
+        public String getPrecipitation_hours() {
+            return precipitation_hours;
+        }
+
+        public String getPrecipitation_probability_max() {
+            return precipitation_probability_max;
+        }
+
+        public String getWind_speed_10m_max() {
+            return wind_speed_10m_max;
+        }
+
+        public String getWind_gusts_10m_max() {
+            return wind_gusts_10m_max;
+        }
+
+        public String getWind_direction_10m_dominant() {
+            return wind_direction_10m_dominant;
+        }
+
+        public String getShortwave_radiation_sum() {
+            return shortwave_radiation_sum;
+        }
+
+        public String getEt0_fao_evapotranspiration() {
+            return et0_fao_evapotranspiration;
+        }
+
     }
 
     public static class Daily {

@@ -43,6 +43,115 @@ public class HourlyWeather {
         private String wind_gusts_10m; // Kilometers per hour
         private String soil_temperature_6cm; // Celsius
         private String soil_moisture_3_to_9cm; // Cubic meters per cubic meter
+
+        public String getTime() {
+            return time;
+        }
+
+        public String getTemperature_2m() {
+            return temperature_2m;
+        }
+
+        public String getRelative_humidity_2m() {
+            return relative_humidity_2m;
+        }
+
+        public String getDew_point_2m() {
+            return dew_point_2m;
+        }
+
+        public String getApparent_temperature() {
+            return apparent_temperature;
+        }
+
+        public String getPrecipitation_probability() {
+            return precipitation_probability;
+        }
+
+        public String getPrecipitation() {
+            return precipitation;
+        }
+
+        public String getRain() {
+            return rain;
+        }
+
+        public String getShowers() {
+            return showers;
+        }
+
+        public String getSnowfall() {
+            return snowfall;
+        }
+
+        public String getSnow_depth() {
+            return snow_depth;
+        }
+
+        public String getWeather_code() {
+            return weather_code;
+        }
+
+        public String getPressure_msl() {
+            return pressure_msl;
+        }
+
+        public String getSurface_pressure() {
+            return surface_pressure;
+        }
+
+        public String getCloud_cover() {
+            return cloud_cover;
+        }
+
+        public String getCloud_cover_low() {
+            return cloud_cover_low;
+        }
+
+        public String getCloud_cover_mid() {
+            return cloud_cover_mid;
+        }
+
+        public String getCloud_cover_high() {
+            return cloud_cover_high;
+        }
+
+        public String getVisibility() {
+            return visibility;
+        }
+
+        public String getEvapotranspiration() {
+            return evapotranspiration;
+        }
+
+        public String getEt0_fao_evapotranspiration() {
+            return et0_fao_evapotranspiration;
+        }
+
+        public String getVapour_pressure_deficit() {
+            return vapour_pressure_deficit;
+        }
+
+        public String getWind_speed_10m() {
+            return wind_speed_10m;
+        }
+
+        public String getWind_direction_10m() {
+            return wind_direction_10m;
+        }
+
+        public String getWind_gusts_10m() {
+            return wind_gusts_10m;
+        }
+
+        public String getSoil_temperature_6cm() {
+            return soil_temperature_6cm;
+        }
+
+        public String getSoil_moisture_3_to_9cm() {
+            return soil_moisture_3_to_9cm;
+        }
+
     }
 
     public static class Hourly {
