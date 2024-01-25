@@ -9,7 +9,7 @@ import com.charlemagne44.jweather.apirequest.Apirequest;
 
 public class Geocode {
 
-    public class LatLong {
+    public static class LatLong {
         public double latitude;
         public double longitude;
 
@@ -32,17 +32,17 @@ public class Geocode {
         }
     }
 
-    public LatLong getLatLong(String cityName) {
+    public static LatLong getLatLong(String cityName) {
         String stringResponse = getLocationJSONResponse(cityName);
         try {
-            // Parse the JSON response
+            // Parse the response array
             JSONArray jsonArray = new JSONArray(stringResponse);
 
             if (jsonArray.length() > 0) {
                 JSONObject firstResult = jsonArray.getJSONObject(0);
                 double latitude = firstResult.getDouble("lat");
                 double longitude = firstResult.getDouble("lon");
-                return this.new LatLong(latitude, longitude);
+                return new LatLong(latitude, longitude);
             } else {
                 System.out.println("No results found");
                 return null;
